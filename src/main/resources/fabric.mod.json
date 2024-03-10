@@ -3,13 +3,14 @@
   "id": "bettercommandline",
   "version": "${version}",
   "name": "BetterCommandLine",
-  "description": "",
+  "description": "A mod that adds a better command line to Minecraft.\nYou can use UP and DOWN arrow keys to navigate through the command history.",
   "authors": [],
   "contact": {
     "repo": "https://github.com/crl/BetterCommandLine"
   },
   "license": "MIT",
   "environment": "*",
+  "icon": "assets/bettercommandline/icon.png",
   "entrypoints": {
     "client": [
       "com.crl.bettercommandline.client.BetterCommandLineClient"

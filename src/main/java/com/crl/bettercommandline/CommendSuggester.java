@@ -36,9 +36,13 @@ public class CommendSuggester {
         if (index >= 0) {
             String suggestion = suggestions.get(index);
             ((ChatScreenAccessor) chatScreen).invokeSetText(suggestion);
+            ((ChatScreenAccessor) chatScreen).getChatField().setCursor(command.length());
+            ((ChatScreenAccessor) chatScreen).getChatInputSuggestor().setWindowActive(false);
             commandHistorySize = index;
         } else {
             ((ChatScreenAccessor) chatScreen).invokeSetText(command);
+            ((ChatScreenAccessor) chatScreen).getChatField().setCursor(command.length());
+            ((ChatScreenAccessor) chatScreen).getChatInputSuggestor().setWindowActive(true);
             commandHistorySize = -1;
         }
     }

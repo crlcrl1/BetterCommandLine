@@ -21,7 +21,7 @@ public class MixinKeyBinding {
             command = command.substring(0, index);
             suggester.suggestCommandFromHistory(((ScreenAccessor) this).getClient(), command, 1,
                     (ChatScreen) (Object) this);
-            ((ChatScreenAccessor) this).getChatField().setCursor(index);
+//            ((ChatScreenAccessor) this).getChatField().setCursor(index);
             cir.setReturnValue(true);
         } else if (keyCode == GLFW.GLFW_KEY_DOWN) {
             int index = ((ChatScreenAccessor) this).getChatField().getCursor();
@@ -29,7 +29,7 @@ public class MixinKeyBinding {
             command = command.substring(0, index);
             suggester.suggestCommandFromHistory(((ScreenAccessor) this).getClient(), command, -1,
                     (ChatScreen) (Object) this);
-            ((ChatScreenAccessor) this).getChatField().setCursor(index);
+//            ((ChatScreenAccessor) this).getChatField().setCursor(index);
             cir.setReturnValue(true);
         }
     }
