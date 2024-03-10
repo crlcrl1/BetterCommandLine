@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "bettercommandline",
+  "version": "${version}",
+  "name": "BetterCommandLine",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/crl/BetterCommandLine"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.crl.bettercommandline.client.BetterCommandLineClient"
+    ],
+    "main": [
+      "com.crl.bettercommandline.BetterCommandLine"
+    ]
+  },
+  "mixins": [
+    "bettercommandline.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
