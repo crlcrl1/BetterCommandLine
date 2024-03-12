@@ -17,6 +17,9 @@
     ],
     "main": [
       "com.crl.bettercommandline.BetterCommandLine"
+    ],
+    "modmenu": [
+      "com.crl.bettercommandline.ModMenuIntegration"
     ]
   },
   "mixins": [
