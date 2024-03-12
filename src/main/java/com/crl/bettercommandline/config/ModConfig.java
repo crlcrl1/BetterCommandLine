@@ -1,6 +1,5 @@
-package com.crl.bettercommandline;
+package com.crl.bettercommandline.config;
 
-import com.terraformersmc.modmenu.config.option.BooleanConfigOption;
 import com.terraformersmc.modmenu.config.option.OptionConvertable;
 import net.minecraft.client.option.SimpleOption;
 
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 
 public class ModConfig {
     public static final BooleanConfigOption ENABLED = new BooleanConfigOption("enabled", true);
-    public static final BooleanConfigOption USE_RIGHT_CTRL = new BooleanConfigOption("useRightCtrl", true);
+    public static final BooleanConfigOption USE_RIGHT_CTRL = new BooleanConfigOption("use_right_ctrl", true, "use_right_ctrl");
 
     public static SimpleOption<?>[] asOptions() {
         ArrayList<SimpleOption<?>> options = new ArrayList<>();
@@ -29,3 +28,5 @@ public class ModConfig {
         return options.toArray(SimpleOption[]::new);
     }
 }
+
+

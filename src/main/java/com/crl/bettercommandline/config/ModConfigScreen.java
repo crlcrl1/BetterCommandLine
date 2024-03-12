@@ -1,39 +1,20 @@
-package com.crl.bettercommandline;
+package com.crl.bettercommandline.config;
 
-import com.google.common.collect.ImmutableMap;
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-import com.terraformersmc.modmenu.api.ModMenuApi;
-import com.terraformersmc.modmenu.config.ModMenuConfigManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
-import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.OptionListWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 
-import java.util.Map;
-
-public class ModMenuIntegration implements ModMenuApi {
-    @Override
-    public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return ConfigScreen::new;
-    }
-
-    @Override
-    public Map<String, ConfigScreenFactory<?>> getProvidedConfigScreenFactories() {
-        return ImmutableMap.of("minecraft", parent -> new OptionsScreen(parent, MinecraftClient.getInstance().options));
-    }
-}
-
-class ConfigScreen extends GameOptionsScreen {
+public class ModConfigScreen extends GameOptionsScreen {
     private final Screen parent;
     private OptionListWidget optionListWidget;
 
-    public ConfigScreen(Screen parent) {
-        super(parent, MinecraftClient.getInstance().options, Text.of("Better Command Line Options"));
+    public ModConfigScreen(Screen parent) {
+        super(parent, MinecraftClient.getInstance().options, Text.translatable("title.bettercommandline"));
         this.parent = parent;
     }
 
@@ -44,7 +25,7 @@ class ConfigScreen extends GameOptionsScreen {
         this.addSelectableChild(this.optionListWidget);
         this.addDrawableChild(
                 ButtonWidget.builder(ScreenTexts.DONE, (button) -> {
-                            ModMenuConfigManager.save();
+                            ModConfigManager.save();
                             if (this.client != null) {
                                 this.client.setScreen(this.parent);
                             }

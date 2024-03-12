@@ -1,0 +1,12 @@
+{
+  "option.bettercommandline.enabled": "Enable",
+  "option.bettercommandline.enabled.true": "True",
+  "option.bettercommandline.enabled.false": "True",
+  "option.bettercommandline.use_right_ctrl": "Use Right Ctrl",
+  "option.bettercommandline.use_right_ctrl.true": "True",
+  "option.bettercommandline.use_right_ctrl.false": "False",
+  "title.bettercommandline": "Better Command Line Options",
+  "tooltip.bettercommandline.use_right_ctrl": "Weather or not to use the right CTRL key to select the upper suggestions to avoid key conflict.",
+  "modmenu.nameTranslation.bettercommandline": "Better Command Line",
+  "modmenu.descriptionTranslation.bettercommandline": "A mod that adds a better command line to Minecraft.\nYou can use UP and DOWN arrow keys to navigate through the command history just like how you do in you shell."
+}

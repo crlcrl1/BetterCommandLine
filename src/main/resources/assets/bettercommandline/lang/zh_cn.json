@@ -1,0 +1,12 @@
+{
+  "option.bettercommandline.enabled": "启用Mod",
+  "option.bettercommandline.enabled.false": "否",
+  "option.bettercommandline.enabled.true": "是",
+  "option.bettercommandline.use_right_ctrl": "使用右CTRL",
+  "option.bettercommandline.use_right_ctrl.false": "否",
+  "option.bettercommandline.use_right_ctrl.true": "是",
+  "title.bettercommandline": "更好的命令行设置",
+  "tooltip.bettercommandline.use_right_ctrl": "是否使用右CTRL键选择上一条建议以避免按键冲突",
+  "modmenu.nameTranslation.bettercommandline": "更好的命令行",
+  "modmenu.descriptionTranslation.bettercommandline": "给MineCraft添加更好用的命令行.\n你可以像在你的shell里一样使用上下键在历史记录中搜索."
+}

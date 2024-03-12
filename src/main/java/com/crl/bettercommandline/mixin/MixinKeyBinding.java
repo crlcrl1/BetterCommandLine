@@ -1,7 +1,7 @@
 package com.crl.bettercommandline.mixin;
 
 import com.crl.bettercommandline.CommendSuggester;
-import com.crl.bettercommandline.ModConfig;
+import com.crl.bettercommandline.config.ModConfig;
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
 import net.minecraft.client.gui.screen.ChatScreen;
 import org.lwjgl.glfw.GLFW;

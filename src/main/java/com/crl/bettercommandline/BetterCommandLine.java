@@ -1,5 +1,6 @@
 package com.crl.bettercommandline;
 
+import com.crl.bettercommandline.config.ModConfigManager;
 import net.fabricmc.api.ModInitializer;
 
 public class BetterCommandLine implements ModInitializer {
@@ -7,6 +8,6 @@ public class BetterCommandLine implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ModConfigManager.initializeConfig();
     }
 }
-

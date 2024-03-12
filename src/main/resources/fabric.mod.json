@@ -4,9 +4,11 @@
   "version": "${version}",
   "name": "BetterCommandLine",
   "description": "A mod that adds a better command line to Minecraft.\nYou can use UP and DOWN arrow keys to navigate through the command history.",
-  "authors": [],
+  "authors": [
+    "crl"
+  ],
   "contact": {
-    "repo": "https://github.com/crl/BetterCommandLine"
+    "repo": "https://github.com/crlcrl1/BetterCommandLine"
   },
   "license": "MIT",
   "environment": "*",
@@ -19,7 +21,7 @@
       "com.crl.bettercommandline.BetterCommandLine"
     ],
     "modmenu": [
-      "com.crl.bettercommandline.ModMenuIntegration"
+      "com.crl.bettercommandline.config.ModMenuIntegration"
     ]
   },
   "mixins": [
@@ -28,6 +30,7 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": "${minecraft_version}"
+    "minecraft": "${minecraft_version}",
+    "modmenu": "*"
   }
 }
