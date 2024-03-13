@@ -8,7 +8,9 @@
     "crl"
   ],
   "contact": {
-    "repo": "https://github.com/crlcrl1/BetterCommandLine"
+    "repo": "https://github.com/crlcrl1/BetterCommandLine",
+    "issues": "https://github.com/crlcrl1/BetterCommandLine/issues",
+    "homepage": "https://github.com/crlcrl1/BetterCommandLine"
   },
   "license": "MIT",
   "environment": "*",
