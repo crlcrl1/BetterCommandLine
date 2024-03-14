@@ -10,6 +10,8 @@ import java.util.ArrayList;
 public class ModConfig {
     public static final BooleanConfigOption ENABLED = new BooleanConfigOption("enabled", true);
     public static final BooleanConfigOption USE_RIGHT_CTRL = new BooleanConfigOption("use_right_ctrl", true, "use_right_ctrl");
+    public static final BooleanConfigOption SHOW_SUGGESTION_WHEN_TYPING =
+            new BooleanConfigOption("show_suggestion_when_typing", true, "show_suggestion_when_typing");
 
     public static SimpleOption<?>[] asOptions() {
         ArrayList<SimpleOption<?>> options = new ArrayList<>();

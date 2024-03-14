@@ -7,6 +7,10 @@
   "option.bettercommandline.use_right_ctrl.false": "False",
   "title.bettercommandline": "Better Command Line Options",
   "tooltip.bettercommandline.use_right_ctrl": "Weather or not to use the right CTRL key to select the upper suggestions to avoid key conflict.",
+  "tooltip.bettercommandline.show_suggestion_when_typing": "Weather or not to show the suggestion when typing. If enabled, you can you the RIGHT arrow key to select the suggestion just like you do in your shell.",
+  "option.bettercommandline.show_suggestion_when_typing.true": "True",
+  "option.bettercommandline.show_suggestion_when_typing.false": "False",
+  "option.bettercommandline.show_suggestion_when_typing": "Show Suggestion When Typing",
   "modmenu.nameTranslation.bettercommandline": "Better Command Line",
   "modmenu.descriptionTranslation.bettercommandline": "A mod that adds a better command line to Minecraft.\nYou can use UP and DOWN arrow keys to navigate through the command history just like how you do in you shell."
 }

@@ -15,6 +15,9 @@ public interface ChatScreenAccessor {
     @Accessor("chatInputSuggestor")
     ChatInputSuggestor getChatInputSuggestor();
 
+    @Accessor("originalChatText")
+    String getOriginalChatText();
+
     @Invoker("setText")
     void invokeSetText(String text);
 }
