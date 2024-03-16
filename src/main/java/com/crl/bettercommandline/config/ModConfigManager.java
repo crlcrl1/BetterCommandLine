@@ -2,6 +2,7 @@ package com.crl.bettercommandline.config;
 
 import com.crl.bettercommandline.BetterCommandLine;
 import com.crl.bettercommandline.config.options.BooleanConfigOption;
+import com.crl.bettercommandline.config.options.EnumConfigOption;
 import com.google.gson.*;
 import com.terraformersmc.modmenu.ModMenu;
 import com.terraformersmc.modmenu.config.option.ConfigOptionStorage;
@@ -10,6 +11,8 @@ import net.fabricmc.loader.api.FabricLoader;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Locale;
 
 public class ModConfigManager {
@@ -46,6 +49,24 @@ public class ModConfigManager {
                                 BooleanConfigOption option = (BooleanConfigOption) field.get(null);
                                 ConfigOptionStorage.setBoolean(option.getKey(), jsonPrimitive.getAsBoolean());
                             }
+                        } else if (EnumConfigOption.class.isAssignableFrom(field.getType()) && field.getGenericType() instanceof ParameterizedType) {
+                            JsonPrimitive jsonPrimitive = json.getAsJsonPrimitive(field.getName().toLowerCase(Locale.ROOT));
+                            if (jsonPrimitive != null && jsonPrimitive.isString()) {
+                                Type generic = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+                                if (generic instanceof Class<?>) {
+                                    EnumConfigOption<?> option = (EnumConfigOption<?>) field.get(null);
+                                    Enum<?> found = null;
+                                    for (Enum<?> value : ((Class<Enum<?>>) generic).getEnumConstants()) {
+                                        if (value.name().toLowerCase(Locale.ROOT).equals(jsonPrimitive.getAsString())) {
+                                            found = value;
+                                            break;
+                                        }
+                                    }
+                                    if (found != null) {
+                                        ConfigOptionStorage.setEnumTypeless(option.getKey(), found);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -69,6 +90,12 @@ public class ModConfigManager {
                     if (BooleanConfigOption.class.isAssignableFrom(field.getType())) {
                         BooleanConfigOption option = (BooleanConfigOption) field.get(null);
                         config.addProperty(field.getName().toLowerCase(Locale.ROOT), ConfigOptionStorage.getBoolean(option.getKey()));
+                    } else if (EnumConfigOption.class.isAssignableFrom(field.getType()) && field.getGenericType() instanceof ParameterizedType) {
+                        Type generic = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+                        if (generic instanceof Class<?>) {
+                            EnumConfigOption<?> option = (EnumConfigOption<?>) field.get(null);
+                            config.addProperty(field.getName().toLowerCase(Locale.ROOT), ConfigOptionStorage.getEnumTypeless(option.getKey(), (Class<Enum<?>>) generic).name().toLowerCase(Locale.ROOT));
+                        }
                     }
                 }
             }

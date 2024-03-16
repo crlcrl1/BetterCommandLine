@@ -1,6 +1,7 @@
 package com.crl.bettercommandline.config;
 
 import com.crl.bettercommandline.config.options.BooleanConfigOption;
+import com.google.gson.annotations.SerializedName;
 import com.terraformersmc.modmenu.config.option.OptionConvertable;
 import net.minecraft.client.option.SimpleOption;
 import com.crl.bettercommandline.config.options.EnumConfigOption;
@@ -35,9 +36,23 @@ public class ModConfig {
     }
 
     public enum HistorySize {
-        ONE_HUNDRED,
-        TWO_HUNDRED,
-        FIVE_HUNDRED,
+        @SerializedName("100")
+        ONE_HUNDRED(100),
+        @SerializedName("200")
+        TWO_HUNDRED(200),
+        @SerializedName("500")
+        FIVE_HUNDRED(500),
+        ;
+
+        private final int num;
+
+        HistorySize(int num) {
+            this.num = num;
+        }
+
+        public int getNum() {
+            return num;
+        }
     }
 }
 

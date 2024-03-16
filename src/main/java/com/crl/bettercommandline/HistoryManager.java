@@ -15,11 +15,7 @@ public class HistoryManager {
     private static final ArrayList<String> history = new ArrayList<>();
 
     static {
-        switch (ModConfig.HISTORY_SIZE.getValue()) {
-            case ONE_HUNDRED -> maxHistorySize = 100;
-            case TWO_HUNDRED -> maxHistorySize = 200;
-            case FIVE_HUNDRED -> maxHistorySize = 500;
-        }
+        maxHistorySize = ModConfig.HISTORY_SIZE.getValue().getNum();
     }
 
     private static void prepareHistoryFile() {
