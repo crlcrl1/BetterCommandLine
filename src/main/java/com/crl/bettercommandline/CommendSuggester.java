@@ -17,7 +17,6 @@ public class CommendSuggester {
     private static String chatLastMessage = "";
     private static String typingSuggestion = "";
     private static TextFieldWidget chatField;
-    private static MinecraftClient client;
 
     public static void clearHistory() {
         commandHistorySize = -1;
@@ -26,7 +25,7 @@ public class CommendSuggester {
 
     public static void suggestCommandFromHistory(String command,
                                                  int offset, ChatScreen chatScreen) {
-        if (client == null || chatScreen == null) {
+        if (chatScreen == null) {
             return;
         }
         if (!Objects.equals(command, chatLastMessage)) {
@@ -34,12 +33,10 @@ public class CommendSuggester {
             chatLastMessage = command;
         }
 
-        List<String> suggestions = new ArrayList<>(client.inGameHud
-                .getChatHud()
-                .getMessageHistory()
+        ArrayList<String> suggestions = new ArrayList<>(HistoryManager
+                .getHistory()
                 .stream()
                 .filter(s -> s.startsWith(command))
-                .distinct()
                 .toList());
         Collections.reverse(suggestions);
         int index = commandHistorySize + offset;
@@ -66,7 +63,7 @@ public class CommendSuggester {
     }
 
     public static void showSuggestionWhenTyping(String command) {
-        if (client == null || chatField == null) {
+        if (chatField == null) {
             return;
         }
 
@@ -74,9 +71,8 @@ public class CommendSuggester {
             return;
         }
 
-        ArrayList<String> history = new ArrayList<>(client.inGameHud
-                .getChatHud()
-                .getMessageHistory()
+        ArrayList<String> history = new ArrayList<>(HistoryManager
+                .getHistory()
                 .stream()
                 .filter(s -> s.startsWith(command))
                 .toList());
@@ -96,12 +92,11 @@ public class CommendSuggester {
     }
 
     public static String getTypingSuggestion(String command) {
-        if (command.isEmpty() || client == null) {
+        if (command.isEmpty()) {
             return "";
         }
-        ArrayList<String> history = new ArrayList<>(client.inGameHud
-                .getChatHud()
-                .getMessageHistory()
+        ArrayList<String> history = new ArrayList<>(HistoryManager
+                .getHistory()
                 .stream()
                 .filter(s -> s.startsWith(command))
                 .toList());
@@ -120,14 +115,6 @@ public class CommendSuggester {
 
     public static TextFieldWidget getChatField() {
         return CommendSuggester.chatField;
-    }
-
-    public static void setClient(MinecraftClient client) {
-        CommendSuggester.client = client;
-    }
-
-    public static MinecraftClient getClient() {
-        return CommendSuggester.client;
     }
 }
 

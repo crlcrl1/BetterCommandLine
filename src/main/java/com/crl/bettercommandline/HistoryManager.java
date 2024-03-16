@@ -60,4 +60,8 @@ public class HistoryManager {
         }
         save();
     }
+
+    public static ArrayList<String> getHistory() {
+        return history;
+    }
 }

@@ -1,6 +1,7 @@
 package com.crl.bettercommandline.mixin;
 
 import com.crl.bettercommandline.CommendSuggester;
+import com.crl.bettercommandline.HistoryManager;
 import com.crl.bettercommandline.config.ModConfig;
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
 import net.minecraft.client.gui.screen.ChatScreen;
@@ -43,6 +44,10 @@ public class MixinChatScreen {
             if (index != text.length()) {
                 CommendSuggester.clearHistory();
             }
+            return;
+        }
+        if (keyCode == GLFW.GLFW_KEY_ENTER) {
+            HistoryManager.addCommand(text);
             return;
         }
 
@@ -94,7 +99,6 @@ public class MixinChatScreen {
             return;
         }
         CommendSuggester.setChatField(((ChatScreenAccessor) this).getChatField());
-        CommendSuggester.setClient(((ScreenAccessor) this).getClient());
     }
 }
 
