@@ -13,17 +13,19 @@ import java.util.List;
 import java.util.Objects;
 
 public class CommendSuggester {
-    private int commandHistorySize = -1;
-    private String chatLastMessage = "";
-    private String typingSuggestion = "";
+    private static int commandHistorySize = -1;
+    private static String chatLastMessage = "";
+    private static String typingSuggestion = "";
+    private static TextFieldWidget chatField;
+    private static MinecraftClient client;
 
-    public void clearHistory() {
+    public static void clearHistory() {
         commandHistorySize = -1;
         chatLastMessage = "";
     }
 
-    public void suggestCommandFromHistory(MinecraftClient client, String command,
-                                          int offset, ChatScreen chatScreen) {
+    public static void suggestCommandFromHistory(String command,
+                                                 int offset, ChatScreen chatScreen) {
         if (client == null || chatScreen == null) {
             return;
         }
@@ -63,45 +65,69 @@ public class CommendSuggester {
         }
     }
 
-    /*
-     * parameter useOriginalText is used to determine whether to use the original text
-     * I don't know a better way to show suggestion when the chat screen opens.
-     * */
-    public void showSuggestionWhenTyping(MinecraftClient client, String command,
-                                         ChatScreen chatScreen, boolean useOriginalText) {
-        if (client == null || chatScreen == null) {
+    public static void showSuggestionWhenTyping(String command) {
+        if (client == null || chatField == null) {
             return;
         }
 
-        if (useOriginalText) {
-            command = ((ChatScreenAccessor) chatScreen).getChatField().getText();
+        if (command.isEmpty()) {
+            return;
         }
 
-        String finalCommand = command;
         ArrayList<String> history = new ArrayList<>(client.inGameHud
                 .getChatHud()
                 .getMessageHistory()
                 .stream()
-                .filter(s -> s.startsWith(finalCommand))
+                .filter(s -> s.startsWith(command))
+                .toList());
+        Collections.reverse(history);
+        String suggestion = !history.isEmpty() ? history.get(0) : "";
+        if (suggestion.length() >= command.length()) {
+            suggestion = suggestion.substring(command.length());
+        }
+        typingSuggestion = suggestion;
+        chatField.setSuggestion(suggestion);
+    }
+
+    public static void acceptTypingSuggestion() {
+        chatField.setText(chatField.getText() + typingSuggestion);
+        typingSuggestion = "";
+        chatField.setCursor(chatField.getText().length());
+    }
+
+    public static String getTypingSuggestion(String command) {
+        if (command.isEmpty() || client == null) {
+            return "";
+        }
+        ArrayList<String> history = new ArrayList<>(client.inGameHud
+                .getChatHud()
+                .getMessageHistory()
+                .stream()
+                .filter(s -> s.startsWith(command))
                 .toList());
         Collections.reverse(history);
         String suggestion = !history.isEmpty() ? history.get(0) : "";
         if (suggestion.length() <= command.length()) {
-            return;
+            typingSuggestion = "";
+            return "";
         }
-        suggestion = suggestion.substring(command.length());
-        typingSuggestion = suggestion;
-        TextFieldWidget chatField = ((ChatScreenAccessor) chatScreen).getChatField();
-        chatField.setSuggestion(suggestion);
+        return typingSuggestion = suggestion.substring(command.length());
     }
 
-    public void acceptTypingSuggestion(ChatScreen chatScreen) {
-        if (chatScreen == null) {
-            return;
-        }
-        TextFieldWidget chatField = ((ChatScreenAccessor) chatScreen).getChatField();
-        chatField.setText(chatField.getText() + typingSuggestion);
-        chatField.setCursor(chatField.getText().length());
+    public static void setChatField(TextFieldWidget chatField) {
+        CommendSuggester.chatField = chatField;
+    }
+
+    public static TextFieldWidget getChatField() {
+        return CommendSuggester.chatField;
+    }
+
+    public static void setClient(MinecraftClient client) {
+        CommendSuggester.client = client;
+    }
+
+    public static MinecraftClient getClient() {
+        return CommendSuggester.client;
     }
 }
 

@@ -8,7 +8,9 @@
   "client": [
     "ChatInputSuggestorAccessor",
     "ChatScreenAccessor",
-    "MixinKeyBinding",
+    "MixinChatInputSuggestor",
+    "MixinChatScreen",
+    "MixinSuggestionWindow",
     "ScreenAccessor"
   ],
   "injectors": {
