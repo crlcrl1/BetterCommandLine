@@ -6,12 +6,11 @@
   "mixins": [
   ],
   "client": [
-    "ChatInputSuggestorAccessor",
-    "ChatScreenAccessor",
+    "accessor.ChatInputSuggestorAccessor",
+    "accessor.ChatScreenAccessor",
     "MixinChatInputSuggestor",
     "MixinChatScreen",
-    "MixinSuggestionWindow",
-    "ScreenAccessor"
+    "MixinSuggestionWindow"
   ],
   "injectors": {
     "defaultRequire": 1

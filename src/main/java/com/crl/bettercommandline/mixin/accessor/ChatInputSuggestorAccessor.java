@@ -1,4 +1,4 @@
-package com.crl.bettercommandline.mixin;
+package com.crl.bettercommandline.mixin.accessor;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
@@ -13,7 +13,4 @@ public interface ChatInputSuggestorAccessor {
 
     @Accessor("textField")
     TextFieldWidget getTextField();
-    
-    @Accessor("client")
-    MinecraftClient getClient();
 }

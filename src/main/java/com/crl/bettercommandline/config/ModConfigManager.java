@@ -1,6 +1,7 @@
 package com.crl.bettercommandline.config;
 
 import com.crl.bettercommandline.BetterCommandLine;
+import com.crl.bettercommandline.config.options.BooleanConfigOption;
 import com.google.gson.*;
 import com.terraformersmc.modmenu.ModMenu;
 import com.terraformersmc.modmenu.config.option.ConfigOptionStorage;

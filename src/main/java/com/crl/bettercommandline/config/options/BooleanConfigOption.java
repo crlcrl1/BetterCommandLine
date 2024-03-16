@@ -1,4 +1,4 @@
-package com.crl.bettercommandline.config;
+package com.crl.bettercommandline.config.options;
 
 import com.crl.bettercommandline.BetterCommandLine;
 import com.terraformersmc.modmenu.config.option.ConfigOptionStorage;

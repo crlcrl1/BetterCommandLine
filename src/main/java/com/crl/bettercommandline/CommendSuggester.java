@@ -1,15 +1,13 @@
 package com.crl.bettercommandline;
 
-import com.crl.bettercommandline.mixin.ChatInputSuggestorAccessor;
-import com.crl.bettercommandline.mixin.ChatScreenAccessor;
-import net.minecraft.client.MinecraftClient;
+import com.crl.bettercommandline.mixin.accessor.ChatInputSuggestorAccessor;
+import com.crl.bettercommandline.mixin.accessor.ChatScreenAccessor;
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 public class CommendSuggester {
@@ -71,13 +69,8 @@ public class CommendSuggester {
             return;
         }
 
-        ArrayList<String> history = new ArrayList<>(HistoryManager
-                .getHistory()
-                .stream()
-                .filter(s -> s.startsWith(command))
-                .toList());
-        Collections.reverse(history);
-        String suggestion = !history.isEmpty() ? history.get(0) : "";
+
+        String suggestion = getSuggestion(command);
         if (suggestion.length() >= command.length()) {
             suggestion = suggestion.substring(command.length());
         }
@@ -95,18 +88,24 @@ public class CommendSuggester {
         if (command.isEmpty()) {
             return "";
         }
-        ArrayList<String> history = new ArrayList<>(HistoryManager
-                .getHistory()
-                .stream()
-                .filter(s -> s.startsWith(command))
-                .toList());
-        Collections.reverse(history);
-        String suggestion = !history.isEmpty() ? history.get(0) : "";
+        String suggestion = getSuggestion(command);
         if (suggestion.length() <= command.length()) {
             typingSuggestion = "";
             return "";
         }
         return typingSuggestion = suggestion.substring(command.length());
+    }
+
+    private static String getSuggestion(String command) {
+        ArrayList<String> history = new ArrayList<>(HistoryManager
+                .getHistory()
+                .stream()
+                .filter(s -> s.startsWith(command))
+                .toList()
+        );
+        history.remove(command);
+        Collections.reverse(history);
+        return !history.isEmpty() ? history.get(0) : "";
     }
 
     public static void setChatField(TextFieldWidget chatField) {

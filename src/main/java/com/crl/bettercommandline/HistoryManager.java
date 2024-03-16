@@ -1,5 +1,6 @@
 package com.crl.bettercommandline;
 
+import com.crl.bettercommandline.config.ModConfig;
 import net.fabricmc.loader.api.FabricLoader;
 import org.apache.commons.io.FileUtils;
 
@@ -12,6 +13,14 @@ public class HistoryManager {
     private static File file;
     private static int maxHistorySize = 500;
     private static final ArrayList<String> history = new ArrayList<>();
+
+    static {
+        switch (ModConfig.HISTORY_SIZE.getValue()) {
+            case ONE_HUNDRED -> maxHistorySize = 100;
+            case TWO_HUNDRED -> maxHistorySize = 200;
+            case FIVE_HUNDRED -> maxHistorySize = 500;
+        }
+    }
 
     private static void prepareHistoryFile() {
         if (file != null) {

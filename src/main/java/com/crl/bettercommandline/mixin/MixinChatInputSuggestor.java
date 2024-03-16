@@ -2,6 +2,7 @@ package com.crl.bettercommandline.mixin;
 
 import com.crl.bettercommandline.CommendSuggester;
 import com.crl.bettercommandline.config.ModConfig;
+import com.crl.bettercommandline.mixin.accessor.ChatInputSuggestorAccessor;
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import org.spongepowered.asm.mixin.Mixin;

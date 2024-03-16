@@ -3,6 +3,7 @@ package com.crl.bettercommandline.mixin;
 import com.crl.bettercommandline.CommendSuggester;
 import com.crl.bettercommandline.HistoryManager;
 import com.crl.bettercommandline.config.ModConfig;
+import com.crl.bettercommandline.mixin.accessor.ChatScreenAccessor;
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;

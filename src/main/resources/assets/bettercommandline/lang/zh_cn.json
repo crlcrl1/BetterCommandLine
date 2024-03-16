@@ -1,16 +1,21 @@
 {
+  "modmenu.descriptionTranslation.bettercommandline": "给MineCraft添加更好用的命令行.\n你可以像在你的shell里一样使用上下键在历史记录中搜索.",
+  "modmenu.nameTranslation.bettercommandline": "更好的命令行",
   "option.bettercommandline.enabled": "启用Mod",
   "option.bettercommandline.enabled.false": "否",
   "option.bettercommandline.enabled.true": "是",
+  "option.bettercommandline.history_size": "历史记录数量",
+  "option.bettercommandline.history_size.five_hundred": "500",
+  "option.bettercommandline.history_size.one_hundred": "100",
+  "option.bettercommandline.history_size.two_hundred": "200",
+  "option.bettercommandline.show_suggestion_when_typing": "在键入的同时显示建议",
+  "option.bettercommandline.show_suggestion_when_typing.false": "否",
+  "option.bettercommandline.show_suggestion_when_typing.true": "是",
   "option.bettercommandline.use_right_ctrl": "使用右CTRL",
   "option.bettercommandline.use_right_ctrl.false": "否",
   "option.bettercommandline.use_right_ctrl.true": "是",
   "title.bettercommandline": "更好的命令行设置",
-  "tooltip.bettercommandline.use_right_ctrl": "是否使用右CTRL键选择上一条建议以避免按键冲突",
-  "modmenu.nameTranslation.bettercommandline": "更好的命令行",
-  "modmenu.descriptionTranslation.bettercommandline": "给MineCraft添加更好用的命令行.\n你可以像在你的shell里一样使用上下键在历史记录中搜索.",
-  "tooltip.bettercommandline.show_suggestion_when_typing": "是否在你键入命令的同时显示建议，如果启用，你可以用右键选择显示的建议",
-  "option.bettercommandline.show_suggestion_when_typing.true": "是",
-  "option.bettercommandline.show_suggestion_when_typing.false": "否",
-  "option.bettercommandline.show_suggestion_when_typing": "在键入的同时显示建议"
+  "tooltip.bettercommandline.history_size": "设置历史记录的数量，如果你的历史记录太长，可能会影响性能",
+  "tooltip.bettercommandline.show_suggestion_when_typing": "是否在你键入命令的同时显示建议，如果启用，你可以用右方向键选择显示的建议",
+  "tooltip.bettercommandline.use_right_ctrl": "是否使用右CTRL键选择上一条建议以避免按键冲突"
 }

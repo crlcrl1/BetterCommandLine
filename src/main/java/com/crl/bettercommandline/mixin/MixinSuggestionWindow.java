@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ChatInputSuggestor.SuggestionWindow.class)
-class MixinSuggestionWindow {
+public class MixinSuggestionWindow {
     @Inject(at = @At("RETURN"), method = "select")
     private void showSuggest(int index, CallbackInfo ci) {
         boolean enable = ModConfig.ENABLED.getValue();

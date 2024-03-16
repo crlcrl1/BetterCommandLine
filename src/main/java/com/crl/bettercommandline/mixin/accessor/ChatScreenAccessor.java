@@ -1,4 +1,4 @@
-package com.crl.bettercommandline.mixin;
+package com.crl.bettercommandline.mixin.accessor;
 
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
 import net.minecraft.client.gui.screen.ChatScreen;
