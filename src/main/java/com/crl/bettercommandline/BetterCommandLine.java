@@ -9,5 +9,6 @@ public class BetterCommandLine implements ModInitializer {
     @Override
     public void onInitialize() {
         ModConfigManager.initializeConfig();
+        HistoryManager.load();
     }
 }
