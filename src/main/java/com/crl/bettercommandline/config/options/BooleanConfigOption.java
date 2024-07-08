@@ -1,11 +1,15 @@
 package com.crl.bettercommandline.config.options;
 
 import com.crl.bettercommandline.BetterCommandLine;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.terraformersmc.modmenu.config.option.ConfigOptionStorage;
 import com.terraformersmc.modmenu.config.option.OptionConvertable;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
+
+import java.util.Locale;
 
 public class BooleanConfigOption implements OptionConvertable {
     private final String key;
@@ -62,5 +66,12 @@ public class BooleanConfigOption implements OptionConvertable {
                     newValue -> ConfigOptionStorage.setBoolean(key, newValue));
         }
         return SimpleOption.ofBoolean(translationKey, getValue(), (value) -> ConfigOptionStorage.setBoolean(key, value));
+    }
+
+    public void setFromJson(String name, JsonObject json) {
+        JsonPrimitive jsonPrimitive = json.getAsJsonPrimitive(name.toLowerCase(Locale.ROOT));
+        if (jsonPrimitive != null && jsonPrimitive.isBoolean()) {
+            ConfigOptionStorage.setBoolean(key, jsonPrimitive.getAsBoolean());
+        }
     }
 }

@@ -9,9 +9,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Manages the command history.
+ */
 public class HistoryManager {
     private static File file;
-    private static int maxHistorySize = 500;
+    private static final int maxHistorySize;
     private static final ArrayList<String> history = new ArrayList<>();
 
     static {

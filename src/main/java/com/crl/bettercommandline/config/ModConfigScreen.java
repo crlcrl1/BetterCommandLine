@@ -29,9 +29,11 @@ public class ModConfigScreen extends GameOptionsScreen {
                             if (this.client != null) {
                                 this.client.setScreen(this.parent);
                             }
-                        }).position(this.width / 2 - 100, this.height - 27)
+                        })
+                        .position(this.width / 2 - 100, this.height - 27)
                         .size(200, 20)
-                        .build());
+                        .build()
+        );
     }
 
     @Override

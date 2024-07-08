@@ -2,6 +2,7 @@ package com.crl.bettercommandline;
 
 import com.crl.bettercommandline.mixin.accessor.ChatInputSuggestorAccessor;
 import com.crl.bettercommandline.mixin.accessor.ChatScreenAccessor;
+import io.netty.util.internal.StringUtil;
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -10,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
+/**
+ * Suggests commands from the command history.
+ */
 public class CommendSuggester {
     private static int commandHistorySize = -1;
     private static String chatLastMessage = "";
@@ -21,8 +25,14 @@ public class CommendSuggester {
         chatLastMessage = "";
     }
 
-    public static void suggestCommandFromHistory(String command,
-                                                 int offset, ChatScreen chatScreen) {
+    /**
+     * Suggests a command from the command history.
+     *
+     * @param command    The command typed by the user
+     * @param offset     The offset to help selecting the command from the history
+     * @param chatScreen The chat screen opened by the user
+     */
+    public static void suggestCommandFromHistory(String command, int offset, ChatScreen chatScreen) {
         if (chatScreen == null) {
             return;
         }
@@ -60,15 +70,15 @@ public class CommendSuggester {
         }
     }
 
+    /**
+     * Shows the suggestion when the user is typing.
+     *
+     * @param command The command typed by the user
+     */
     public static void showSuggestionWhenTyping(String command) {
-        if (chatField == null) {
+        if (chatField == null || StringUtil.isNullOrEmpty(command)) {
             return;
         }
-
-        if (command.isEmpty()) {
-            return;
-        }
-
 
         String suggestion = getSuggestion(command);
         if (suggestion.length() >= command.length()) {
@@ -78,12 +88,21 @@ public class CommendSuggester {
         chatField.setSuggestion(suggestion);
     }
 
+    /**
+     * Accepts the typing suggestion on the chat field.
+     */
     public static void acceptTypingSuggestion() {
         chatField.setText(chatField.getText() + typingSuggestion);
         typingSuggestion = "";
         chatField.setCursor(chatField.getText().length());
     }
 
+    /**
+     * Get the typing suggestion.
+     *
+     * @param command The command typed by the user
+     * @return The typing suggestion
+     */
     public static String getTypingSuggestion(String command) {
         if (command.isEmpty()) {
             return "";
@@ -96,6 +115,12 @@ public class CommendSuggester {
         return typingSuggestion = suggestion.substring(command.length());
     }
 
+    /**
+     * Get the suggestion from the command history.
+     *
+     * @param command The command typed by the user
+     * @return The suggestion from the command history
+     */
     private static String getSuggestion(String command) {
         ArrayList<String> history = new ArrayList<>(HistoryManager
                 .getHistory()
@@ -114,6 +139,24 @@ public class CommendSuggester {
 
     public static TextFieldWidget getChatField() {
         return CommendSuggester.chatField;
+    }
+
+    /**
+     * Suggests one word to the user, select the next word shown in the suggestion window.
+     *
+     * @param command    The command typed by the user
+     * @param chatScreen The chat screen opened by the user
+     */
+    public static void suggestOneWord(String command, ChatScreen chatScreen) {
+        if (chatScreen == null || StringUtil.isNullOrEmpty(command)) {
+            return;
+        }
+        String suggestion = getTypingSuggestion(command).split(" ")[0];
+        if (suggestion.isEmpty()) {
+            return;
+        }
+        ((ChatScreenAccessor) chatScreen).invokeSetText(command + suggestion + " ");
+        ((ChatScreenAccessor) chatScreen).getChatField().setCursor(command.length());
     }
 }
 

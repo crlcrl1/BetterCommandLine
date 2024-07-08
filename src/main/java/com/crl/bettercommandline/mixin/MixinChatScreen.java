@@ -26,43 +26,64 @@ public class MixinChatScreen {
             return;
         }
         String text = ((ChatScreenAccessor) this).getChatField().getText();
-        int index = ((ChatScreenAccessor) this).getChatField().getCursor();
-        String command = text.substring(0, index);
+        // Get the cursor position
+        int cursorPosition = ((ChatScreenAccessor) this).getChatField().getCursor();
+        String command = text.substring(0, cursorPosition);
         boolean useRightCtrl = ModConfig.USE_RIGHT_CTRL.getValue();
         if (keyCode >= GLFW.GLFW_KEY_SPACE && keyCode <= GLFW.GLFW_KEY_GRAVE_ACCENT) {
             CommendSuggester.clearHistory();
             return;
         }
-        if (keyCode == GLFW.GLFW_KEY_LEFT && index != 0) {
+
+        // Clear history for next suggestion when the user types the left arrow key
+        if (keyCode == GLFW.GLFW_KEY_LEFT && cursorPosition != 0) {
             CommendSuggester.clearHistory();
             return;
         }
 
         if (keyCode == GLFW.GLFW_KEY_RIGHT) {
-            if (index == text.length() && showSuggestionWhenTyping) {
-                CommendSuggester.acceptTypingSuggestion();
+            // Suggest one word if key CTRL is pressed
+            if (modifiers == GLFW.GLFW_MOD_CONTROL) {
+                CommendSuggester.suggestOneWord(command, (ChatScreen) (Object) this);
+                CommendSuggester.clearHistory();
+                return;
             }
-            if (index != text.length()) {
+            // Suggestions are shown when the user types the right arrow key and the cursor
+            // is at the end of the text
+            if (cursorPosition == text.length() && showSuggestionWhenTyping) {
+                CommendSuggester.acceptTypingSuggestion();
+                cir.setReturnValue(true);
+            }
+            // Clear history for next suggestion if the cursor is not at the end of the text
+            if (cursorPosition != text.length()) {
                 CommendSuggester.clearHistory();
             }
             return;
         }
+
+        // Add the command to the history when the user presses the enter key
         if (keyCode == GLFW.GLFW_KEY_ENTER) {
             HistoryManager.addCommand(text);
             return;
         }
 
+        // If the user want to use the right control key to show the suggestion
+        // from Minecraft's suggestion list, then the right control key will be used
         if (keyCode == GLFW.GLFW_KEY_RIGHT_CONTROL && useRightCtrl) {
             ChatInputSuggestor suggestor = ((ChatScreenAccessor) this).getChatInputSuggestor();
             suggestor.keyPressed(GLFW.GLFW_KEY_UP, scanCode, modifiers);
             return;
         }
 
-
+        // Use the up and down arrow keys to navigate the command history
         if (keyCode == GLFW.GLFW_KEY_UP) {
             CommendSuggester.suggestCommandFromHistory(command, 1, (ChatScreen) (Object) this);
             cir.setReturnValue(true);
         } else if (keyCode == GLFW.GLFW_KEY_DOWN) {
+            // If the cursor is not at the end of the text, the user can
+            // use the down arrow key to navigate the command history
+            // Otherwise, the user can use the down arrow key to show the suggestion
+            // from Minecraft's suggestion list
             if (command.length() == ((ChatScreenAccessor) this).getChatField().getText().length())
                 return;
             CommendSuggester.suggestCommandFromHistory(command, -1, (ChatScreen) (Object) this);

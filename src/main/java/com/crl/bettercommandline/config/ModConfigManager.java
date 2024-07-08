@@ -29,52 +29,38 @@ public class ModConfigManager {
         load();
     }
 
-    @SuppressWarnings("unchecked")
     private static void load() {
         prepareConfigFile();
+        if (!file.exists()) {
+            save();
+        }
 
-        try {
-            if (!file.exists()) {
-                save();
-            }
-            if (file.exists()) {
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                JsonObject json = new JsonParser().parse(br).getAsJsonObject();
+        if (file.exists()) {
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                JsonObject json = JsonParser.parseReader(br).getAsJsonObject();
 
                 for (Field field : ModConfig.class.getDeclaredFields()) {
-                    if (Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers())) {
+                    int modifiers = field.getModifiers();
+                    if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
                         if (BooleanConfigOption.class.isAssignableFrom(field.getType())) {
-                            JsonPrimitive jsonPrimitive = json.getAsJsonPrimitive(field.getName().toLowerCase(Locale.ROOT));
-                            if (jsonPrimitive != null && jsonPrimitive.isBoolean()) {
-                                BooleanConfigOption option = (BooleanConfigOption) field.get(null);
-                                ConfigOptionStorage.setBoolean(option.getKey(), jsonPrimitive.getAsBoolean());
-                            }
+                            String name = field.getName();
+                            BooleanConfigOption option = (BooleanConfigOption) field.get(null);
+                            option.setFromJson(name, json);
                         } else if (EnumConfigOption.class.isAssignableFrom(field.getType()) && field.getGenericType() instanceof ParameterizedType) {
-                            JsonPrimitive jsonPrimitive = json.getAsJsonPrimitive(field.getName().toLowerCase(Locale.ROOT));
-                            if (jsonPrimitive != null && jsonPrimitive.isString()) {
-                                Type generic = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
-                                if (generic instanceof Class<?>) {
-                                    EnumConfigOption<?> option = (EnumConfigOption<?>) field.get(null);
-                                    Enum<?> found = null;
-                                    for (Enum<?> value : ((Class<Enum<?>>) generic).getEnumConstants()) {
-                                        if (value.name().toLowerCase(Locale.ROOT).equals(jsonPrimitive.getAsString())) {
-                                            found = value;
-                                            break;
-                                        }
-                                    }
-                                    if (found != null) {
-                                        ConfigOptionStorage.setEnumTypeless(option.getKey(), found);
-                                    }
-                                }
+                            String name = field.getName();
+                            Type generic = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+                            if (generic instanceof Class<?>) {
+                                EnumConfigOption<?> option = (EnumConfigOption<?>) field.get(null);
+                                option.setFromJson(name, json, generic);
                             }
                         }
                     }
                 }
+            } catch (IOException | IllegalAccessException e) {
+                throw new RuntimeException(e);
             }
-        } catch (FileNotFoundException | IllegalAccessException e) {
-            System.err.println("Couldn't load Mod Menu configuration file; reverting to defaults");
-            e.printStackTrace();
         }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -89,18 +75,26 @@ public class ModConfigManager {
                 if (Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers())) {
                     if (BooleanConfigOption.class.isAssignableFrom(field.getType())) {
                         BooleanConfigOption option = (BooleanConfigOption) field.get(null);
-                        config.addProperty(field.getName().toLowerCase(Locale.ROOT), ConfigOptionStorage.getBoolean(option.getKey()));
-                    } else if (EnumConfigOption.class.isAssignableFrom(field.getType()) && field.getGenericType() instanceof ParameterizedType) {
-                        Type generic = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
-                        if (generic instanceof Class<?>) {
+                        String name = field.getName().toLowerCase(Locale.ROOT);
+                        boolean value = ConfigOptionStorage.getBoolean(option.getKey());
+                        config.addProperty(name, value);
+                    } else if (EnumConfigOption.class.isAssignableFrom(field.getType()) &&
+                            field.getGenericType() instanceof ParameterizedType
+                    ) {
+                        Type type = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+                        if (type instanceof Class<?>) {
                             EnumConfigOption<?> option = (EnumConfigOption<?>) field.get(null);
-                            config.addProperty(field.getName().toLowerCase(Locale.ROOT), ConfigOptionStorage.getEnumTypeless(option.getKey(), (Class<Enum<?>>) generic).name().toLowerCase(Locale.ROOT));
+                            String name = field.getName().toLowerCase(Locale.ROOT);
+                            Enum<?> enumType = ConfigOptionStorage.getEnumTypeless(option.getKey(),
+                                    (Class<Enum<?>>) type);
+                            String value = enumType.name().toLowerCase(Locale.ROOT);
+                            config.addProperty(name, value);
                         }
                     }
                 }
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            System.err.println("Couldn't save Mod Menu configuration file");
         }
 
         String jsonString = ModMenu.GSON.toJson(config);
@@ -109,7 +103,6 @@ public class ModConfigManager {
             fileWriter.write(jsonString);
         } catch (IOException e) {
             System.err.println("Couldn't save Mod Menu configuration file");
-            e.printStackTrace();
         }
     }
 }
