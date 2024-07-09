@@ -10,6 +10,6 @@ class BetterCommandLine : ModInitializer {
 
     override fun onInitialize() {
         ModConfigManager.initializeConfig()
-        HistoryManager.instance.load()
+        HistoryManager.load()
     }
 }

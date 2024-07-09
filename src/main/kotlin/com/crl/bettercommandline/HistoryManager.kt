@@ -10,30 +10,18 @@ import java.io.IOException
 /**
  * Manages the command history.
  */
-class HistoryManager {
-    companion object {
-        val instance = HistoryManager()
-    }
+object HistoryManager {
 
-    private var file: File? = null
+    private val file: File = File(FabricLoader.getInstance().gameDir.toFile(), ".command_history")
     private val maxHistorySize = ModConfig.HISTORY_SIZE.value.num
-    val history: ArrayList<String> = ArrayList()
+    val history = ArrayList<String>()
 
-    private fun prepareHistoryFile() {
-        if (file != null) {
-            return
-        }
-        file = File(FabricLoader.getInstance().gameDir.toFile(), ".command_history")
-    }
 
     private fun save() {
-        prepareHistoryFile()
         try {
-            file?.let {
-                FileWriter(it).use { writer ->
-                    for (s in history) {
-                        writer.write(s + "\n")
-                    }
+            FileWriter(file).use { writer ->
+                for (s in history) {
+                    writer.write(s + "\n")
                 }
             }
         } catch (e: IOException) {
@@ -42,12 +30,11 @@ class HistoryManager {
     }
 
     fun load() {
-        prepareHistoryFile()
         try {
-            if (!file!!.exists()) {
+            if (!file.exists()) {
                 save()
             }
-            if (file!!.exists()) {
+            if (file.exists()) {
                 history.clear()
                 history.addAll(FileUtils.readLines(file, "UTF-8"))
             }

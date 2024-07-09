@@ -19,9 +19,9 @@ public class MixinSuggestionWindow {
             return;
         }
 
-        TextFieldWidget chatField = CommendSuggester.Companion.getInstance().getChatField();
+        TextFieldWidget chatField = CommendSuggester.INSTANCE.getChatField();
         if (chatField != null) {
-            CommendSuggester.Companion.getInstance().showSuggestionWhenTyping(chatField.getText());
+            CommendSuggester.INSTANCE.showSuggestionWhenTyping(chatField.getText());
         }
     }
 }
