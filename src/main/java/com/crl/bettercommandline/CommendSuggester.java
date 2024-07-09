@@ -151,7 +151,11 @@ public class CommendSuggester {
         if (chatScreen == null || StringUtil.isNullOrEmpty(command)) {
             return;
         }
-        String suggestion = getTypingSuggestion(command).split(" ")[0];
+        String[] suggestions = getTypingSuggestion(command).split(" ");
+        if (suggestions.length == 0) {
+            return;
+        }
+        String suggestion = suggestions[0];
         if (suggestion.isEmpty()) {
             return;
         }
