@@ -31,39 +31,39 @@ public class MixinChatScreen {
         String command = text.substring(0, cursorPosition);
         boolean useRightCtrl = ModConfig.USE_RIGHT_CTRL.getValue();
         if (keyCode >= GLFW.GLFW_KEY_SPACE && keyCode <= GLFW.GLFW_KEY_GRAVE_ACCENT) {
-            CommendSuggester.clearHistory();
+            CommendSuggester.Companion.getInstance().clearHistory();
             return;
         }
 
         // Clear history for next suggestion when the user types the left arrow key
         if (keyCode == GLFW.GLFW_KEY_LEFT && cursorPosition != 0) {
-            CommendSuggester.clearHistory();
+            CommendSuggester.Companion.getInstance().clearHistory();
             return;
         }
 
         if (keyCode == GLFW.GLFW_KEY_RIGHT) {
             // Suggest one word if key CTRL is pressed
             if (modifiers == GLFW.GLFW_MOD_CONTROL) {
-                CommendSuggester.suggestOneWord(command, (ChatScreen) (Object) this);
-                CommendSuggester.clearHistory();
+                CommendSuggester.Companion.getInstance().suggestOneWord(command, (ChatScreen) (Object) this);
+                CommendSuggester.Companion.getInstance().clearHistory();
                 return;
             }
             // Suggestions are shown when the user types the right arrow key and the cursor
             // is at the end of the text
             if (cursorPosition == text.length() && showSuggestionWhenTyping) {
-                CommendSuggester.acceptTypingSuggestion();
+                CommendSuggester.Companion.getInstance().acceptTypingSuggestion();
                 cir.setReturnValue(true);
             }
             // Clear history for next suggestion if the cursor is not at the end of the text
             if (cursorPosition != text.length()) {
-                CommendSuggester.clearHistory();
+                CommendSuggester.Companion.getInstance().clearHistory();
             }
             return;
         }
 
         // Add the command to the history when the user presses the enter key
         if (keyCode == GLFW.GLFW_KEY_ENTER) {
-            HistoryManager.addCommand(text);
+            HistoryManager.Companion.getInstance().addCommand(text);
             return;
         }
 
@@ -77,7 +77,8 @@ public class MixinChatScreen {
 
         // Use the up and down arrow keys to navigate the command history
         if (keyCode == GLFW.GLFW_KEY_UP) {
-            CommendSuggester.suggestCommandFromHistory(command, 1, (ChatScreen) (Object) this);
+            CommendSuggester.Companion.getInstance().suggestCommandFromHistory(command, 1,
+                    (ChatScreen) (Object) this);
             cir.setReturnValue(true);
         } else if (keyCode == GLFW.GLFW_KEY_DOWN) {
             // If the cursor is not at the end of the text, the user can
@@ -86,7 +87,8 @@ public class MixinChatScreen {
             // from Minecraft's suggestion list
             if (command.length() == ((ChatScreenAccessor) this).getChatField().getText().length())
                 return;
-            CommendSuggester.suggestCommandFromHistory(command, -1, (ChatScreen) (Object) this);
+            CommendSuggester.Companion.getInstance().suggestCommandFromHistory(command, -1,
+                    (ChatScreen) (Object) this);
             cir.setReturnValue(true);
         }
     }
@@ -97,7 +99,7 @@ public class MixinChatScreen {
         if (!enable) {
             return;
         }
-        CommendSuggester.clearHistory();
+        CommendSuggester.Companion.getInstance().clearHistory();
     }
 
     @Inject(at = @At("RETURN"), method = "onChatFieldUpdate")
@@ -110,7 +112,7 @@ public class MixinChatScreen {
         TextFieldWidget chatField = ((ChatScreenAccessor) this).getChatField();
         if (chatText.length() != chatField.getCursor())
             return;
-        CommendSuggester.showSuggestionWhenTyping(chatText);
+        CommendSuggester.Companion.getInstance().showSuggestionWhenTyping(chatText);
     }
 
     @Inject(at = @At("TAIL"), method = "init")
@@ -120,7 +122,7 @@ public class MixinChatScreen {
         if (!enable || !showSuggestionWhenTyping) {
             return;
         }
-        CommendSuggester.setChatField(((ChatScreenAccessor) this).getChatField());
+        CommendSuggester.Companion.getInstance().setChatField(((ChatScreenAccessor) this).getChatField());
     }
 }
 

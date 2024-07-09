@@ -1,6 +1,5 @@
 package com.crl.bettercommandline.mixin.accessor;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import org.spongepowered.asm.mixin.Mixin;
