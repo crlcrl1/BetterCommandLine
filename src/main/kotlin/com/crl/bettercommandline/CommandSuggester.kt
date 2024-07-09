@@ -10,10 +10,7 @@ import java.util.*
 /**
  * Suggests commands from the command history.
  */
-class CommendSuggester {
-    companion object {
-        val instance = CommendSuggester()
-    }
+object CommendSuggester {
 
     private var commandHistorySize = -1
     private var chatLastMessage = ""
@@ -42,7 +39,6 @@ class CommendSuggester {
         }
 
         val suggestions = ArrayList(HistoryManager
-            .instance
             .history
             .stream()
             .filter { s: String -> s.startsWith(command) }
@@ -126,7 +122,6 @@ class CommendSuggester {
      */
     private fun getSuggestion(command: String): String? {
         val history = ArrayList(HistoryManager
-            .instance
             .history
             .stream()
             .filter { s: String -> s.startsWith(command) }

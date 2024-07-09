@@ -25,7 +25,7 @@ public class MixinChatInputSuggestor {
         if (cursor != chatText.length()) {
             return;
         }
-        String suggestion = CommendSuggester.Companion.getInstance().getTypingSuggestion(chatText);
+        String suggestion = CommendSuggester.INSTANCE.getTypingSuggestion(chatText);
         chatField.setSuggestion(suggestion);
     }
 }
