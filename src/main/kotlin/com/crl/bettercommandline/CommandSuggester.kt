@@ -10,7 +10,7 @@ import java.util.*
 /**
  * Suggests commands from the command history.
  */
-object CommendSuggester {
+object CommandSuggester {
 
     private var commandHistorySize = -1
     private var chatLastMessage = ""
