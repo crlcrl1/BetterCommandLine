@@ -24,7 +24,7 @@ object HistoryManager {
                     writer.write(s + "\n")
                 }
             }
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             println("Failed to save command history")
         }
     }
@@ -41,7 +41,7 @@ object HistoryManager {
             if (history.size > maxHistorySize) {
                 history.subList(0, history.size - maxHistorySize).clear()
             }
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             println("Fail to load command history")
         }
     }

@@ -20,7 +20,7 @@ public class ModConfigScreen extends GameOptionsScreen {
 
     @Override
     protected void init() {
-        optionListWidget = new OptionListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
+        optionListWidget = new OptionListWidget(this.client, this.width, this);
         optionListWidget.addAll(ModConfig.asOptions());
         this.addSelectableChild(this.optionListWidget);
         this.addDrawableChild(
@@ -37,15 +37,20 @@ public class ModConfigScreen extends GameOptionsScreen {
     }
 
     @Override
+    protected void addOptions() {
+
+    }
+
+    @Override
     public void removed() {
         ModConfigManager.save();
     }
 
     @Override
-    public void render(DrawContext DrawContext, int mouseX, int mouseY, float delta) {
-        this.renderBackgroundTexture(DrawContext);
-        this.optionListWidget.render(DrawContext, mouseX, mouseY, delta);
-        DrawContext.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 5, 0xffffff);
-        super.render(DrawContext, mouseX, mouseY, delta);
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        this.renderInGameBackground(drawContext);
+        this.optionListWidget.render(drawContext, mouseX, mouseY, delta);
+        drawContext.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 5, 0xffffff);
+        super.render(drawContext, mouseX, mouseY, delta);
     }
 }

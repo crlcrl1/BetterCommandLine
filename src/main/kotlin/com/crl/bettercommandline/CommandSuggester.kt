@@ -2,6 +2,7 @@ package com.crl.bettercommandline
 
 import com.crl.bettercommandline.mixin.accessor.ChatInputSuggestorAccessor
 import com.crl.bettercommandline.mixin.accessor.ChatScreenAccessor
+import com.crl.bettercommandline.mixin.accessor.TextFieldWidgetAccessor
 import io.netty.util.internal.StringUtil
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.gui.widget.TextFieldWidget
@@ -26,7 +27,7 @@ object CommandSuggester {
      * Suggests a command from the command history.
      *
      * @param command    The command typed by the user
-     * @param offset     The offset to help selecting the command from the history
+     * @param offset     The offset to help select the command from the history
      * @param chatScreen The chat screen opened by the user
      */
     fun suggestCommandFromHistory(command: String, offset: Int, chatScreen: ChatScreen?) {
@@ -38,11 +39,12 @@ object CommandSuggester {
             chatLastMessage = command
         }
 
-        val suggestions = ArrayList(HistoryManager
-            .history
-            .stream()
-            .filter { s: String -> s.startsWith(command) }
-            .toList())
+        val suggestions = ArrayList(
+            HistoryManager
+                .history
+                .stream()
+                .filter { s: String -> s.startsWith(command) }
+                .toList())
         suggestions.reverse()
         var index = commandHistorySize + offset
         if (index < 0) {
@@ -53,12 +55,12 @@ object CommandSuggester {
         if (index >= 0) {
             val suggestion = suggestions[index]
             (chatScreen as ChatScreenAccessor).invokeSetText(suggestion)
-            (chatScreen as ChatScreenAccessor).chatField.cursor = command.length
+            setCursor((chatScreen as ChatScreenAccessor).chatField, suggestion.length)
             (chatScreen as ChatScreenAccessor).chatInputSuggestor.setWindowActive(false)
             commandHistorySize = index
         } else {
             (chatScreen as ChatScreenAccessor).invokeSetText(command)
-            (chatScreen as ChatScreenAccessor).chatField.cursor = command.length
+            setCursor((chatScreen as ChatScreenAccessor).chatField, command.length)
             val suggestor = (chatScreen as ChatScreenAccessor).chatInputSuggestor
             if (!(suggestor as ChatInputSuggestorAccessor).isWindowActive) {
                 (chatScreen as ChatScreenAccessor).chatInputSuggestor.setWindowActive(true)
@@ -91,7 +93,7 @@ object CommandSuggester {
     fun acceptTypingSuggestion() {
         chatField!!.text += typingSuggestion
         typingSuggestion = ""
-        chatField!!.cursor = chatField!!.text.length
+        setCursor(chatField!!, chatField!!.text.length)
     }
 
     /**
@@ -121,11 +123,12 @@ object CommandSuggester {
      * @return The suggestion from the command history
      */
     private fun getSuggestion(command: String): String? {
-        val history = ArrayList(HistoryManager
-            .history
-            .stream()
-            .filter { s: String -> s.startsWith(command) }
-            .toList()
+        val history = ArrayList(
+            HistoryManager
+                .history
+                .stream()
+                .filter { s: String -> s.startsWith(command) }
+                .toList()
         )
         history.remove(command)
         history.reverse()
@@ -154,6 +157,10 @@ object CommandSuggester {
             return
         }
         (chatScreen as ChatScreenAccessor).invokeSetText("$command$suggestion ")
-        (chatScreen as ChatScreenAccessor).chatField.cursor = command.length
+        setCursor((chatScreen as ChatScreenAccessor).chatField, command.length)
     }
+}
+
+fun setCursor(textFieldWidget: TextFieldWidget, cursor: Int) {
+    (textFieldWidget as TextFieldWidgetAccessor).setCursor(cursor)
 }

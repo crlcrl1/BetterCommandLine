@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.mojang.serialization.Codec;
 import com.terraformersmc.modmenu.config.option.ConfigOptionStorage;
-import com.terraformersmc.modmenu.config.option.OptionConvertable;
+import com.terraformersmc.modmenu.config.option.OptionConvertible;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
@@ -14,7 +14,7 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Locale;
 
-public class EnumConfigOption<E extends Enum<E>> implements OptionConvertable {
+public class EnumConfigOption<E extends Enum<E>> implements OptionConvertible {
     private final String key, translationKey;
     private final Class<E> enumClass;
     private final E defaultValue;

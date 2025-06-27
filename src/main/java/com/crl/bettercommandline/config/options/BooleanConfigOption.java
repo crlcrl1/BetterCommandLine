@@ -4,14 +4,14 @@ import com.crl.bettercommandline.BetterCommandLine;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.terraformersmc.modmenu.config.option.ConfigOptionStorage;
-import com.terraformersmc.modmenu.config.option.OptionConvertable;
+import com.terraformersmc.modmenu.config.option.OptionConvertible;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 
 import java.util.Locale;
 
-public class BooleanConfigOption implements OptionConvertable {
+public class BooleanConfigOption implements OptionConvertible {
     private final String key;
     private final String translationKey;
     private final Text enabledText;

@@ -14,8 +14,8 @@ import org.lwjgl.glfw.GLFW
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
 
 /**
- * This function is called before the key is pressed
- * When the key is pressed, this function will accept suggestions
+ * This function is called before the key is pressed.
+ * When the key is pressed, this function will accept suggestions.
  */
 fun beforeKeyPressed(
     keyCode: Int,
@@ -93,9 +93,9 @@ fun beforeKeyPressed(
         cir.setReturnValue(true)
     } else if (keyCode == GLFW.GLFW_KEY_DOWN) {
         // If the cursor is not at the end of the text, the user can
-        // use the down arrow key to navigate the command history
+        // use the down arrow key to navigate the command history.
         // Otherwise, the user can use the down arrow key to show the suggestion
-        // from Minecraft's suggestion list
+        // from Minecraft's suggestion list.
         if (command.length == text.length) return
         suggestCommandFromHistory(
             command, -1,

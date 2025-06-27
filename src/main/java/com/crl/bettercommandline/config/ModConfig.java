@@ -2,7 +2,7 @@ package com.crl.bettercommandline.config;
 
 import com.crl.bettercommandline.config.options.BooleanConfigOption;
 import com.google.gson.annotations.SerializedName;
-import com.terraformersmc.modmenu.config.option.OptionConvertable;
+import com.terraformersmc.modmenu.config.option.OptionConvertible;
 import net.minecraft.client.option.SimpleOption;
 import com.crl.bettercommandline.config.options.EnumConfigOption;
 
@@ -25,10 +25,10 @@ public class ModConfig {
         for (Field field : ModConfig.class.getDeclaredFields()) {
             if (Modifier.isStatic(field.getModifiers())
                     && Modifier.isFinal(field.getModifiers())
-                    && OptionConvertable.class.isAssignableFrom(field.getType())
+                    && OptionConvertible.class.isAssignableFrom(field.getType())
             ) {
                 try {
-                    options.add(((OptionConvertable) field.get(null)).asOption());
+                    options.add(((OptionConvertible) field.get(null)).asOption());
                 } catch (IllegalAccessException e) {
                     System.err.println("Failed to get option from field " + field.getName());
                 }
