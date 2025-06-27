@@ -20,3 +20,7 @@ through your command history.
 - Change `minecraft_version`, `yarn_mappings`, and `loader_version` in `gradle.properties` to the
   version of Minecraft you want to build for
 - run `./gradlew build` or build it in your IDE
+
+## Supported Minecraft versions
+
+This mod is tested on Minecraft 1.20.1 and 1.21.6, for other versions it may or may not work.
