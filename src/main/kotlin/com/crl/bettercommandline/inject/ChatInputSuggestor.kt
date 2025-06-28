@@ -17,5 +17,4 @@ fun afterRefresh(chatField: TextFieldWidget) {
     }
     val suggestion = CommandSuggester.getTypingSuggestion(chatText)
     chatField.setSuggestion(suggestion)
-
 }

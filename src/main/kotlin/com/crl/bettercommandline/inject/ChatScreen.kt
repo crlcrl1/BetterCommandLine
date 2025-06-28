@@ -13,6 +13,19 @@ import net.minecraft.client.gui.widget.TextFieldWidget
 import org.lwjgl.glfw.GLFW
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
 
+fun isTextKey(keyCode: Int): Boolean {
+    if (keyCode >= GLFW.GLFW_KEY_SPACE && keyCode <= GLFW.GLFW_KEY_GRAVE_ACCENT) {
+        return true
+    }
+    if (keyCode >= GLFW.GLFW_KEY_KP_0 && keyCode <= GLFW.GLFW_KEY_KP_ADD) {
+        return true
+    }
+    if (keyCode == GLFW.GLFW_KEY_KP_EQUAL) {
+        return true
+    }
+    return false
+}
+
 /**
  * This function is called before the key is pressed.
  * When the key is pressed, this function will accept suggestions.
@@ -28,6 +41,7 @@ fun beforeKeyPressed(
 ) {
     val enable = ModConfig.ENABLED.value
     val showSuggestionWhenTyping = ModConfig.SHOW_SUGGESTION_WHEN_TYPING.value
+
     if (!enable) {
         return
     }
@@ -36,7 +50,7 @@ fun beforeKeyPressed(
     val cursorPosition = charField.cursor
     val command = text.substring(0, cursorPosition)
     val useRightCtrl = ModConfig.USE_RIGHT_CTRL.value
-    if (keyCode >= GLFW.GLFW_KEY_SPACE && keyCode <= GLFW.GLFW_KEY_GRAVE_ACCENT) {
+    if (isTextKey(keyCode)) {
         clearHistory()
         return
     }
@@ -70,7 +84,7 @@ fun beforeKeyPressed(
 
 
     // Add the command to the history when the user presses the enter key
-    if (keyCode == GLFW.GLFW_KEY_ENTER) {
+    if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
         addCommand(text)
         return
     }

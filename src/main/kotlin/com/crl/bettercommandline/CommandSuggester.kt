@@ -52,10 +52,11 @@ object CommandSuggester {
         } else if (index >= suggestions.size) {
             return
         }
+
         if (index >= 0) {
             val suggestion = suggestions[index]
             (chatScreen as ChatScreenAccessor).invokeSetText(suggestion)
-            setCursor((chatScreen as ChatScreenAccessor).chatField, suggestion.length)
+            setCursor((chatScreen as ChatScreenAccessor).chatField, command.length)
             (chatScreen as ChatScreenAccessor).chatInputSuggestor.setWindowActive(false)
             commandHistorySize = index
         } else {
